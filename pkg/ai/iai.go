@@ -23,6 +23,7 @@ var (
 	clients = []IAI{
 		&OpenAIClient{},
 		&AzureAIClient{},
+		&BTPAIClient{},
 		&LocalAIClient{},
 		&NoOpAIClient{},
 		&CohereClient{},

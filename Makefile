@@ -5,7 +5,7 @@
 # ==============================================================================
 # define the default goal
 #
-ROOT_PACKAGE=github.com/k8sgpt-ai/k8sgpt
+ROOT_PACKAGE=github.com/ruanxin/k8sgpt
 
 SHELL := /bin/bash
 DIRS=$(shell ls)
@@ -38,7 +38,7 @@ ifeq (, $(shell git status --porcelain 2>/dev/null))
 endif
 GIT_COMMIT:=$(shell git rev-parse HEAD)
 
-IMG ?= ghcr.io/k8sgpt-ai/k8sgpt:latest
+IMG ?= ghcr.io/ruanxin/k8sgpt:latest
 
 BUILDFILE = "./main.go"
 BUILDAPP = "$(OUTPUT_DIR)/k8sgpt"
