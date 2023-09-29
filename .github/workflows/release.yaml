@@ -70,7 +70,7 @@ jobs:
       packages: write
       id-token: write
     env:
-      IMAGE_TAG: ghcr.io/k8sgpt-ai/k8sgpt:${{ needs.release-please.outputs.tag_name }}
+      IMAGE_TAG: ghcr.io/ruanxin/k8sgpt:${{ needs.release-please.outputs.tag_name }}
       IMAGE_NAME: k8sgpt
     steps:
       - name: Checkout
