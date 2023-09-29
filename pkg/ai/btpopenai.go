@@ -3,7 +3,6 @@ package ai
 import (
 	"context"
 	"encoding/base64"
-	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -28,21 +27,6 @@ type BTPAIClient struct {
 func (c *BTPAIClient) Configure(config IAIConfig, lang string) error {
 	token := config.GetPassword()
 	baseURL := config.GetBaseURL()
-	engine := config.GetEngine()
-	defaultConfig := openai.DefaultAzureConfig(token, baseURL)
-	defaultConfig.APIType = "SAP_API"
-	defaultConfig.AzureModelMapperFunc = func(model string) string {
-		// If you use a deployment name different from the model name, you can customize the AzureModelMapperFunc function
-		azureModelMapping := map[string]string{
-			model: engine,
-		}
-		return azureModelMapping[model]
-
-	}
-	client := openai.NewClientWithConfig(defaultConfig)
-	if client == nil {
-		return errors.New("error creating Azure OpenAI client")
-	}
 	c.language = lang
 	c.model = config.GetModel()
 	c.temperature = config.GetTemperature()
