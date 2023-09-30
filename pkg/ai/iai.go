@@ -30,6 +30,7 @@ var (
 	}
 	Backends = []string{
 		"openai",
+		"btpopenai",
 		"localai",
 		"azureopenai",
 		"noopai",
