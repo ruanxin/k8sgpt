@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/ruanxin/k8sgpt/compare/v0.4.0...v1.0.0) (2023-09-30)
+
+
+### Other
+
+* release 1.0.0 ([7af5d1f](https://github.com/ruanxin/k8sgpt/commit/7af5d1f9d93cdaa371793e2579a33381778a47ef))
+
 ## [0.3.17](https://github.com/k8sgpt-ai/k8sgpt/compare/v0.3.16...v0.3.17) (2023-09-28)
 
 
