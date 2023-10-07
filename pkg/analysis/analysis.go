@@ -91,7 +91,7 @@ func NewAnalysis(backend string, language string, filters []string, namespace st
 			break
 		}
 	}
-
+	fmt.Printf("aiprovider: %s, %s \n", aiProvider.BaseURL, aiProvider.Password)
 	if aiProvider.Name == "" {
 		color.Red("Error: AI provider %s not specified in configuration. Please run k8sgpt auth", backend)
 		return nil, errors.New("AI provider not specified in configuration")
