@@ -24,7 +24,7 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 	if int(i.MaxConcurrency) == 0 {
 		i.MaxConcurrency = 10
 	}
-
+	fmt.Println("before create analysis")
 	analysis, err := analysis.NewAnalysis(
 		i.Backend,
 		i.Language,
@@ -38,11 +38,11 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 	if err != nil {
 		return &schemav1.AnalyzeResponse{}, err
 	}
-	fmt.Printf("before run analysis")
+	fmt.Println("before run analysis")
 
 	analysis.RunAnalysis()
 
-	fmt.Printf("after run analysis")
+	fmt.Println("after run analysis")
 	for _, result := range analysis.Results {
 		fmt.Printf("result: %s", result.Details)
 	}
