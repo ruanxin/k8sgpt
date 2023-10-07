@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	json "encoding/json"
+	"fmt"
 
 	schemav1 "buf.build/gen/go/k8sgpt-ai/k8sgpt/protocolbuffers/go/schema/v1"
 	"github.com/k8sgpt-ai/k8sgpt/pkg/analysis"
@@ -24,7 +25,7 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 		i.MaxConcurrency = 10
 	}
 
-	config, err := analysis.NewAnalysis(
+	analysis, err := analysis.NewAnalysis(
 		i.Backend,
 		i.Language,
 		i.Filters,
@@ -37,16 +38,23 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 	if err != nil {
 		return &schemav1.AnalyzeResponse{}, err
 	}
-	config.RunAnalysis()
+	fmt.Printf("before run analysis")
+
+	analysis.RunAnalysis()
+
+	fmt.Printf("after run analysis")
+	for _, result := range analysis.Results {
+		fmt.Printf("result: %s", result.Details)
+	}
 
 	if i.Explain {
-		err := config.GetAIResults(i.Output, i.Anonymize)
+		err := analysis.GetAIResults(i.Output, i.Anonymize)
 		if err != nil {
 			return &schemav1.AnalyzeResponse{}, err
 		}
 	}
 
-	out, err := config.PrintOutput(i.Output)
+	out, err := analysis.PrintOutput(i.Output)
 	if err != nil {
 		return &schemav1.AnalyzeResponse{}, err
 	}
