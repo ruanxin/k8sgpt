@@ -24,7 +24,6 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 	if int(i.MaxConcurrency) == 0 {
 		i.MaxConcurrency = 10
 	}
-	fmt.Println("before create analysis")
 	analysis, err := analysis.NewAnalysis(
 		i.Backend,
 		i.Language,
@@ -35,7 +34,9 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 		int(i.MaxConcurrency),
 		false, // Kubernetes Doc disabled in server mode
 	)
+	fmt.Printf("before create analysis %s, %s \n", analysis.AnalysisAIProvider, analysis.Namespace)
 	if err != nil {
+		fmt.Printf("create analysis %s", err.Error())
 		return &schemav1.AnalyzeResponse{}, err
 	}
 	fmt.Println("before run analysis")
@@ -44,7 +45,11 @@ func (h *handler) Analyze(ctx context.Context, i *schemav1.AnalyzeRequest) (
 
 	fmt.Println("after run analysis")
 	for _, result := range analysis.Results {
-		fmt.Printf("result: %s", result.Details)
+		fmt.Printf("result: %s\n", result.Name)
+	}
+
+	for _, error := range analysis.Errors {
+		fmt.Printf("error: %s\n", error)
 	}
 
 	if i.Explain {
