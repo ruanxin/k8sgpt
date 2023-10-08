@@ -91,7 +91,7 @@ func NewAnalysis(backend string, language string, filters []string, namespace st
 			break
 		}
 	}
-	fmt.Printf("aiprovider: %s, %s \n", aiProvider.BaseURL, aiProvider.Password)
+
 	if aiProvider.Name == "" {
 		color.Red("Error: AI provider %s not specified in configuration. Please run k8sgpt auth", backend)
 		return nil, errors.New("AI provider not specified in configuration")
@@ -163,8 +163,7 @@ func (a *Analysis) RunAnalysis() {
 	if len(a.Filters) == 0 && len(activeFilters) == 0 {
 		var wg sync.WaitGroup
 		var mutex sync.Mutex
-		for key, analyzer := range coreAnalyzerMap {
-			fmt.Printf("analyzer %s\n", key)
+		for _, analyzer := range coreAnalyzerMap {
 			wg.Add(1)
 			semaphore <- struct{}{}
 			go func(analyzer common.IAnalyzer, wg *sync.WaitGroup, semaphore chan struct{}) {
@@ -172,7 +171,6 @@ func (a *Analysis) RunAnalysis() {
 				results, err := analyzer.Analyze(analyzerConfig)
 				if err != nil {
 					mutex.Lock()
-					fmt.Printf("analyzer err: %s\n", err.Error())
 					a.Errors = append(a.Errors, fmt.Sprintf("[%s] %s", reflect.TypeOf(analyzer).Name(), err))
 					mutex.Unlock()
 				}
